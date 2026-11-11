@@ -15,6 +15,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     images: ["/opengraph-image.png"],
   },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "购物车",
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
