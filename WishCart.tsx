@@ -122,6 +122,8 @@ export default function WishCart() {
     if (!cleanName) { setToast(english ? text!.invalid : "先写下想买什么吧！"); return; }
     const parsedQuantity = Math.max(1, Math.min(999, Math.floor(Number(quantity) || 1)));
     setData((current) => ({ ...current, [activeCart]: [{ id: createItemId(), name: cleanName.slice(0, 100), quantity: parsedQuantity, note: note.trim().slice(0, 240), checked: false }, ...current[activeCart]] }));
+    const focusedElement = event.currentTarget.ownerDocument.activeElement;
+    if (focusedElement instanceof HTMLElement) focusedElement.blur();
     setName(""); setQuantity("1"); setNote(""); setToast(english ? text!.added : "已经放进清单啦！");
   }
 
@@ -171,9 +173,9 @@ export default function WishCart() {
         <form className={styles.addForm} onSubmit={addItem}>
           <div className={styles.formHeading}><span className={styles.plusBadge}><Plus size={17} /></span><div><strong>{english ? text!.add : "添加物品"}</strong><span>{english ? text!.hint : "写下名称、数量和可选备注"}</span></div></div>
           <div className={styles.formFields}>
-            <label className={styles.nameField}><span className={styles.srOnly}>{english ? text!.name : "物品名称"}</span><input value={name} onChange={(event) => setName(event.target.value)} maxLength={100} placeholder={english ? text!.name : "物品名称"} /></label>
+            <label className={styles.nameField}><span className={styles.srOnly}>{english ? text!.name : "物品名称"}</span><input inputMode="text" enterKeyHint="done" value={name} onChange={(event) => setName(event.target.value)} maxLength={100} placeholder={english ? text!.name : "物品名称"} /></label>
             <label className={`${styles.quantityField} ${quantity ? styles.quantityFilled : ""}`}><span aria-hidden="true">{english ? text!.qty : "数量"}</span><input type="number" min="1" max="999" value={quantity} onChange={(event) => setQuantity(event.target.value)} aria-label={english ? text!.qty : "数量"} /></label>
-            <label className={styles.noteField}><span className={styles.srOnly}>{english ? text!.note : "备注（可选）"}</span><input value={note} onChange={(event) => setNote(event.target.value)} maxLength={240} placeholder={english ? text!.note : "备注"} /></label>
+            <label className={styles.noteField}><span className={styles.srOnly}>{english ? text!.note : "备注（可选）"}</span><input inputMode="text" enterKeyHint="done" value={note} onChange={(event) => setNote(event.target.value)} maxLength={240} placeholder={english ? text!.note : "备注"} /></label>
             <button className={styles.addButton} type="submit"><Plus size={17} /><span>{english ? "Add" : "添加"}</span></button>
           </div>
         </form>
